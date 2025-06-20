@@ -1,0 +1,248 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #B0E0E6 0%, #FFFACD 100%); /* Xanh dương (PowderBlue) và Vàng (LemonChiffon) */
+    background-size: cover;
+    font-size: 14px;
+    font-family: 'Noto Sans Vietnamese', sans-serif;
+    color: #231F20;
+    overflow: auto
+}
+
+a {
+    color: #000;
+    font-size: 14px;
+}
+
+#main {
+    width: 100%;
+}
+
+#wrap {
+    position: relative;
+    margin: 0 auto;
+    width: 1100px;
+    height: 680px;
+    margin-top: 10px;
+}
+
+#text {
+    width: 470px;
+    height: 400px;
+    left: 0px;
+    top: 80px;
+    position: absolute;
+}
+
+#code {
+    display: none;
+    font-size: 15px;
+}
+
+#clock-box {
+    position: absolute;
+    left: 60px;
+    top: 550px;
+    font-size: 28px;
+    display: none;
+    color: #D2691E !important; /* Màu cam cháy */
+}
+
+#clock-box a {
+    font-size: 28px;
+    text-decoration: none;
+}
+
+#clock {
+    margin-left: 48px;
+}
+
+#clock .digit {
+    font-size: 64px;
+    color: #FF4500 !important; /* Màu Orangered */
+    text-shadow: 0 0 5px rgba(255, 69, 0, 0.5);
+}
+
+#canvas {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+
+#error {
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 60px;
+    display: none;
+}
+
+.hand {
+    cursor: pointer;
+}
+
+.say {
+    margin-left: 5px;
+    font-family: 'Pacifico', 'Times New Roman', Times, serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.space {
+    margin-right: 150px;
+}
+
+/* Styles for image containers and frames */
+.image-container {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    top: auto;
+    transform: none;
+    z-index: 1000;
+}
+
+.image-container.left,
+.image-container.right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0;
+    height: auto;
+    bottom: 20px;
+    top: auto;
+    transform: none;
+}
+
+.image-container.left {
+    left: 20px;
+    flex-direction: column;
+    align-items: flex-start !important;
+}
+
+.image-container.right {
+    right: 20px;
+    align-items: flex-end;
+}
+
+.image-frame {
+    width: 180px;
+    height: 180px;
+    border: 5px solid #FFB6C1; /* LightPink */
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ffb6e6 0%, #ffe6fa 50%, #b4eaff 100%);
+    background-clip: padding-box, border-box;
+    box-shadow: 0 4px 16px 0 rgba(255, 105, 180, 0.15), 0 0 0 8px rgba(255,255,255,0.2) inset;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: frame-pop 0.7s cubic-bezier(0.23, 1.12, 0.32, 1) forwards, floating 3.2s ease-in-out infinite;
+}
+
+.image-frame:nth-child(1) { animation-delay: 0.1s; }
+.image-frame:nth-child(2) { animation-delay: 0.3s; }
+.image-frame:nth-child(3) { animation-delay: 0.5s; }
+
+@keyframes frame-pop {
+    0% { opacity: 0; transform: scale(0.7) rotate(-8deg); }
+    60% { opacity: 1; transform: scale(1.08) rotate(3deg); }
+    80% { transform: scale(0.97) rotate(-2deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes floating {
+    0% { transform: translateY(0) scale(1) rotate(0deg); }
+    25% { transform: translateY(-10px) scale(1.03) rotate(-2deg); }
+    50% { transform: translateY(0) scale(1) rotate(0deg); }
+    75% { transform: translateY(10px) scale(0.98) rotate(2deg); }
+    100% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+.image-frame::before {
+    content: "";
+    position: absolute;
+    top: -5px; left: -5px; right: -5px; bottom: -5px;
+    border-radius: 20px;
+    z-index: 0;
+    background: linear-gradient(135deg, #ffb6e6 0%, #ffe6fa 50%, #b4eaff 100%);
+    opacity: 0.7;
+    filter: blur(6px);
+    transition: opacity 0.4s;
+    pointer-events: none;
+}
+
+.image-frame:hover {
+    transform: scale(1.13) rotate(2deg);
+    box-shadow: 0 0 48px 16px #ffb6e6, 0 4px 24px rgba(0,0,0,0.22), 0 0 32px 8px #ff69b4;
+    border: 5px solid #fff0fa;
+}
+
+.image-frame:hover::before {
+    opacity: 1;
+}
+
+.image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: opacity 0.2s ease-in-out;
+    animation: img-sway 4s ease-in-out infinite;
+}
+
+@keyframes img-sway {
+    0% { transform: scale(1) rotate(0deg); }
+    20% { transform: scale(1.01) rotate(-2deg); }
+    50% { transform: scale(1.02) rotate(2deg); }
+    80% { transform: scale(1.01) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.image-frame:hover img {
+    transform: scale(1.09) rotate(2deg);
+}
+
+.image-frame img.fade-out {
+    opacity: 0;
+}
+
+/* Zigzag layout for images (chỉ desktop) */
+.image-container.left .image-frame:nth-child(odd) { margin-left: 0px !important; }
+.image-container.left .image-frame:nth-child(even) { margin-left: 60px !important; }
+.image-container.right .image-frame:nth-child(odd) { margin-right: 0px; }
+.image-container.right .image-frame:nth-child(even) { margin-right: 60px; }
+
+@media (max-width: 768px) {
+    #wrap {
+        width: 95%;
+        padding: 15px;
+    }
+
+    #text {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .say {
+        font-size: 30px !important;
+    }
+
+    #clock .digit {
+        font-size: 48px;
+    }
+}
+
+/* Custom Styles Added */
+#code .say {
+    background: none;
+    -webkit-background-clip: unset;
+    color: #5D4037; /* Màu nâu sẫm */
+}
+
+#code > div > span.say {
+    font-size: 1.35rem !important;
+    font-weight: bold !important;
+    color: #D2691E !important; /* Màu Chocolate */
+}
